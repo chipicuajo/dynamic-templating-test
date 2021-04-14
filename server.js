@@ -2,6 +2,7 @@ require('dotenv').config();
 
 const express = require('express');
 const hbs = require('hbs');
+const students = require('./exam-info');
 
 const app = express();
 
@@ -10,10 +11,18 @@ app.set('views', __dirname + '/views');
 
 app.use(express.static('public'));
 
-// 1: in the home,list all the students who took the exam (list all the students)
+app.get('/', (req,res) =>{
+  res.render('full-list.hbs', {students: students})
+})
 
-// ... Your code here
+app.get('/results', (req,res) =>{
+  let cloned = JSON.parse(JSON.stringify(students))
+  let filtered = cloned.filter((passed)=>{
+    return passed.hasPassed == true;
+  }).sort((a,b)=>b-a)
 
+  res.render('results.hbs', {students: filtered})
+})
 // 2: in the '/results' list all the students who passed the test and their score.
 // Also, students should be in descending order based on their score.
 
