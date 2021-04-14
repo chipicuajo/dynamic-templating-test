@@ -19,14 +19,11 @@ app.get('/results', (req,res) =>{
   let cloned = JSON.parse(JSON.stringify(students))
   let filtered = cloned.filter((passed)=>{
     return passed.hasPassed == true;
-  }).sort((a,b)=>b-a)
+  }).sort((a,b) => b.score - a.score)
 
   res.render('results.hbs', {students: filtered})
 })
-// 2: in the '/results' list all the students who passed the test and their score.
-// Also, students should be in descending order based on their score.
 
-// ... Your code here
 
 app.listen(process.env.PORT, () =>
   console.log(`App running on ${process.env.PORT}.`)
